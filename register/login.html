@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | NexusCRM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0b1020;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            background: #6366f1;
+            filter: blur(170px);
+            opacity: .25;
+            top: -150px;
+            left: -100px;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: #9333ea;
+            filter: blur(170px);
+            opacity: .2;
+            bottom: -150px;
+            right: -100px;
+            pointer-events: none;
+        }
+
+        .auth-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 430px;
+            background: rgba(21, 29, 51, .9);
+            border: 1px solid #303b58;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 80px #0005;
+            animation: fadeUp .6s ease;
+        }
+
+        .logo {
+            font-size: 29px;
+            font-weight: 800;
+            text-align: center;
+            color: #a78bfa;
+            margin-bottom: 30px;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 9px;
+            color: #cbd5e1;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 11px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: .3s;
+        }
+
+        input:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px #6366f125;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #6366f1, #9333ea);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: .3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px #6366f155;
+        }
+
+        .footer-text {
+            text-align: center;
+            color: #94a3b8;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        .footer-text a {
+            color: #a78bfa;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .errors {
+            background: #7f1d1d55;
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .errors ul {
+            padding-left: 18px;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 28px 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-card">
+
+    <div class="logo">NEXUS<span>CRM</span></div>
+
+    <h1>Xush kelibsiz!</h1>
+    <p class="subtitle">
+        Hisobingizga kirish uchun ma'lumotlarni kiriting
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="errors">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">
+                Username
+            </label>
+            {{ form.username }}
+            {% if form.username.errors %}
+            <div class="errors">{{ form.username.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password.id_for_label }}">
+                Parol
+            </label>
+            {{ form.password }}
+            {% if form.password.errors %}
+            <div class="errors">{{ form.password.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="submit-btn">
+            Tizimga kirish →
+        </button>
+    </form>
+
+    <p class="footer-text">
+        Hisobingiz yo'qmi?
+        <a href="{% url 'register' %}">
+            Ro'yxatdan o'tish
+        </a>
+    </p>
+
+</div>
+
+</body>
+</html>
